@@ -1,5 +1,10 @@
 """View routes."""
-import default
+from learning_journal.view.default import(
+    list_view,
+    detail_view,
+    create_view,
+    update_view
+)
 
 
 def includeme(config):

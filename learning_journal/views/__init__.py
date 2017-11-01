@@ -1,5 +1,5 @@
 """View routes."""
-from learning_journal.view.default import(
+from learning_journal.views.default import(
     list_view,
     detail_view,
     create_view,

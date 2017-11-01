@@ -3,17 +3,18 @@
 
 A simple Pyramid app for my 401-Python learning journal.
 
+https://frightful-mausoleum-95099.herokuapp.com/
+
 **Authors**:
 
 - Matt Favoino
 
 ## Routes:
 
-- `/` - the home page and a listing of journals
-- `/new-expense` - to create a new expense
-- `/expense/{id:\d+}` - the page for an individual expense
-- `/expense/{id:\d+}/edit` - for editing existing expenses
-- `/expense/{cat:\w+}` - list all expenses by category
+- `/` - the home page and a listing of journal entries
+- `/detail/{id:\d+}` - the page for an individual entry
+- `/journal/new-entry` - for adding a new entry
+- `/{id:\d+}/edit-entry` - edit existing entry
 
 ## Set Up and Installation:
 

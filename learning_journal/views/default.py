@@ -1,12 +1,20 @@
 """Module with view functions that serve each uri."""
 
-from pyramid.response import Response
+from pyramid.view import view_config
 import os
 import io
 
 
 HERE = os.path.dirname(__file__)
 
+
+@view_config(route_name='home', renderer='string')
+def home_view(request):
+    return "Home!"
+
+@view_config(route_name='home', renderer='string')
+def list_view(request):
+    return
 
 def list_view(request):
     """Serve all journal entries on home page."""

@@ -1,0 +1,15 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class = "row">
+    <div class="col-md-10">
+        { % for post in entry % }
+        <div class="row page-row">
+            <h3><a href="/journal/{{ post.id }}">{{ ENTRIES.title }}</a></h3>
+            <p class="author-name">By {{ ENTRIES.author.display_name }} on  {{ ENTRIES.created }}</p>
+            <p class="post-body">{{ ENTRIES.text }}</p>
+        </div>
+        {} % endfor % }
+    </div>
+</div>
+{% endblock %}

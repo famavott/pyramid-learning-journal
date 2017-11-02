@@ -1,12 +1,14 @@
 """Module with view functions that serve each uri."""
-
 from pyramid.view import view_config
+from learning_journal.data.entries import ENTRIES
 
 
 @view_config(route_name='home', renderer='learning_journal:templates/index.jinja2')
 def list_view(request):
     """Pass response to send to index.html page."""
-    return {}
+    return {
+        'entries': ENTRIES
+    }
 
 
 @view_config(route_name='detail', renderer='learning_journal:templates/detail.jinja2')

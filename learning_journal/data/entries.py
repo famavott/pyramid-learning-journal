@@ -4,7 +4,7 @@ from datetime import datetime
 
 ENTRIES = [
     {
-        "created": "2017-11-01T05:28:57.155812",
+        "created": "2017-11-01",
         "title": "401 - Day 12",
         "author": {
             "course_id": [
@@ -19,7 +19,7 @@ ENTRIES = [
         "id": 879
     },
     {
-        "created": "2017-10-31T04:43:09.448456",
+        "created": "2017-10-31",
         "title": "401 - Day 11",
         "author": {
             "course_id": [
@@ -34,7 +34,7 @@ ENTRIES = [
         "id": 854
     },
     {
-        "created": "2017-10-28T04:24:50.877414",
+        "created": "2017-10-28",
         "title": "401 - Day 10",
         "author": {
             "course_id": [
@@ -49,7 +49,7 @@ ENTRIES = [
         "id": 830
     },
     {
-        "created": "2017-10-27T03:27:23.548179",
+        "created": "2017-10-27",
         "title": "401 - Day 9",
         "author": {
             "course_id": [
@@ -64,7 +64,7 @@ ENTRIES = [
         "id": 799
     },
     {
-        "created": "2017-10-26T05:24:24.705161",
+        "created": "2017-10-26",
         "title": "401 - Day 8",
         "author": {
             "course_id": [
@@ -79,7 +79,7 @@ ENTRIES = [
         "id": 781
     },
     {
-        "created": "2017-10-25T04:51:23.463153",
+        "created": "2017-10-25",
         "title": "401 - Day 7",
         "author": {
             "course_id": [
@@ -94,7 +94,7 @@ ENTRIES = [
         "id": 752
     },
     {
-        "created": "2017-10-24T06:11:06.486634",
+        "created": "2017-10-24",
         "title": "401 - Day 6",
         "author": {
             "course_id": [
@@ -109,7 +109,7 @@ ENTRIES = [
         "id": 731
     },
     {
-        "created": "2017-10-22T03:05:54.508449",
+        "created": "2017-10-22",
         "title": "401 - Day 5",
         "author": {
             "course_id": [
@@ -124,7 +124,7 @@ ENTRIES = [
         "id": 695
     },
     {
-        "created": "2017-10-21T14:57:08.949283",
+        "created": "2017-10-21",
         "title": "401 - Day 4",
         "author": {
             "course_id": [
@@ -139,7 +139,7 @@ ENTRIES = [
         "id": 673
     },
     {
-        "created": "2017-10-20T05:21:59.437510",
+        "created": "2017-10-20",
         "title": "401 - Day 3",
         "author": {
             "course_id": [
@@ -154,7 +154,7 @@ ENTRIES = [
         "id": 646
     },
     {
-        "created": "2017-10-18T04:53:50.040493",
+        "created": "2017-10-18",
         "title": "401 - Day 2",
         "author": {
             "course_id": [
@@ -169,7 +169,7 @@ ENTRIES = [
         "id": 612
     },
     {
-        "created": "2017-10-17T03:50:36.055613",
+        "created": "2017-10-17",
         "title": "401 - Day 1",
         "author": {
             "course_id": [

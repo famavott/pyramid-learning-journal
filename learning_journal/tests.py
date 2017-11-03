@@ -10,44 +10,30 @@ def dummy_request():
     return testing.DummyRequest()
 
 
-def test_list_view_response_status_code_200(dummy_request):
-    """."""
+def test_list_view_returns_dict(dummy_request):
+    """Home page returns a response object."""
     from learning_journal.views.default import list_view
     response = list_view(dummy_request)
-    assert response.status_code == 200
+    assert isinstance(response, dict)
 
 
-def test_detail_view_response_status_code_200(dummy_request):
-    """."""
-    from learning_journal.views.default import detail_view
-    response = detail_view(dummy_request)
-    assert response.status_code == 200
+def test_list_view_returns_all_entries(dummy_request):
+    """Home page returns all journal entries contained in data directory."""
+    from learning_journal.views.default import list_view
+    from learning_journal.data.entries import ENTRIES
+    response = list_view(dummy_request)
+    assert len(response['entries']) == len(ENTRIES)
 
 
-def test_create_view_response_status_code_200(dummy_request):
-    """."""
+def test_create_view_returns_dict(dummy_request):
+    """New post page returns a response object."""
     from learning_journal.views.default import create_view
     response = create_view(dummy_request)
-    assert response.status_code == 200
+    assert isinstance(response, dict)
 
 
-def test_create_update_response_status_code_200(dummy_request):
-    """."""
+def test_update_view_returns_dict(dummy_request):
+    """Update post page returns a response object."""
     from learning_journal.views.default import update_view
     response = update_view(dummy_request)
-    assert response.status_code == 200
-
-
-def test_list_view_response_is_html(dummy_request):
-    """."""
-    from learning_journal.views.default import list_view
-    response = list_view(dummy_request)
-    assert response.concent_type == 'text/html'
-
-
-def test_list_view_response_has_proper_content(dummy_request):
-    """."""
-    from learning_journal.views.default import list_view
-    response = list_view(dummy_request)
-    the_tag = '<h2>401 Learning Journal Journal</h2>'
-    assert the_tag in response.ubody
+    assert isinstance(response, dict)

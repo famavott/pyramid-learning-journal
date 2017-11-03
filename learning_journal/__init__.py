@@ -2,9 +2,9 @@
 from pyramid.config import Configurator
 
 
-def main(global_config, **settings):
+def main():
     """Function returns a Pyramid WSGI application."""
-    config = Configurator(settings=settings)
+    config = Configurator()
     config.include('pyramid_jinja2')
     config.include('.routes')
     config.include('.models')

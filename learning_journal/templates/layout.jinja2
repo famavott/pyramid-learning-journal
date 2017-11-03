@@ -11,21 +11,15 @@
 <body>
     <header class="container-fluid row">
         <div class="nav-link">
-            <a href="/">401 Learning Journal</a>
+            <a href="{{ request.route_url('home') }}">401 Learning Journal</a>
         </div>
     </header>
     <ul class="nav nav-tabs">
         <li class="navs">
-            <a href="/">Home</a>
+            <a href="{{ request.route_url('home') }}">Home</a>
         </li>
         <li>
-            <a href="/journal/new-entry">New</a>
-        </li>
-        <li>
-            <a href="/journal/{id:\d+}">Detail</a>
-        </li>
-        <li>
-            <a href="/{id:\d+}/edit-entry">Edit</a>
+            <a href="{{ request.route_url('create') }}">New</a>
         </li>
     </ul>
     <main class="container">

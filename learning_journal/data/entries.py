@@ -140,7 +140,7 @@ ENTRIES = [
     },
     {
         "created": "2017-10-20T05:21:59.437510",
-        "title": "401 - Day 4",
+        "title": "401 - Day 3",
         "author": {
             "course_id": [
                 "sea401d7"

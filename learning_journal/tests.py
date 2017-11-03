@@ -37,3 +37,12 @@ def test_update_view_returns_dict(dummy_request):
     from learning_journal.views.default import update_view
     response = update_view(dummy_request)
     assert isinstance(response, dict)
+
+
+def test_detail_view_one_entry(dummy_request):
+    """Detail page returns a response object with one journal."""
+    from learning_journal.views.default import detail_view
+    request = dummy_request
+    request.matchdict['id'] = 879
+    response = detail_view(request)
+    assert '401 - Day 12' in response['entry']['title']

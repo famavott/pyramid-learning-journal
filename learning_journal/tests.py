@@ -1,7 +1,9 @@
 """Test file for all pyramid learning journal files."""
 from __future__ import unicode_literals
-from pyramid import testing
 from pyramid.httpexceptions import HTTPNotFound
+from learning_journal.models.mymodel import Journal
+from expense_tracker.models.meta import Base
+from pyramid import testing
 import pytest
 
 

@@ -2,11 +2,11 @@
 from pyramid.config import Configurator
 
 
-def main():
+def main(gloabl_config, **settings):
     """Function returns a Pyramid WSGI application."""
-    config = Configurator()
+    config = Configurator(settings=settings)
     config.include('pyramid_jinja2')
     config.include('.routes')
-    config.include('.models')
+    # config.include('.models')
     config.scan()
     return config.make_wsgi_app()

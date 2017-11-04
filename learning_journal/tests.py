@@ -1,6 +1,7 @@
 """Test file for all pyramid learning journal files."""
 from __future__ import unicode_literals
 from pyramid import testing
+from pyramid.httpexceptions import HTTPNotFound
 import pytest
 
 
@@ -56,3 +57,15 @@ def test_detail_view_one_entry(dummy_request):
     request.matchdict['id'] = 879
     response = detail_view(request)
     assert '401 - Day 12' in response['entry']['title']
+
+
+def test_detail_view_response_has_title(testapp):
+    """Test detail_view response contains a title."""
+    response = testapp.get('/journal/799')
+    assert 'title' in response
+
+
+def test_http_not_found(testapp):
+    """Test if HTTPNotFound with bad route."""
+    with pytest.raises(Exception):
+        testapp.get("/journal/900")

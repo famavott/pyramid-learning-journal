@@ -17,3 +17,12 @@ class Journal(Base):
     title = Column(Unicode)
     body = Column(Unicode)
     created = Column(Unicode)
+
+    def to_dict(self):
+        """Take all model attrs and render to dict."""
+        return {
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
+            'created': self.created
+        }

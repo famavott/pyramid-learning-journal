@@ -2,12 +2,14 @@
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.data.entries import ENTRIES
-from ..models import MyModel
+from ..models import Journal
 
 
 @view_config(route_name='home', renderer='learning_journal:templates/index.jinja2')
 def list_view(request):
     """Pass response to send to index.html page with all entries."""
+    entries = request.dbsession.query(Journal).all()
+    entries = [entries.to_dict() for entry in entries]
     return {
         'entries': ENTRIES
     }
@@ -17,11 +19,11 @@ def list_view(request):
 def detail_view(request):
     """Pass response to send to detail.html page for individual entries."""
     target_id = int(request.matchdict['id'])
-    for entry in ENTRIES:
-        if entry['id'] == target_id:
-            return {
-                'entry': entry
-            }
+    entry = request.dbsession.query(Journal).get(target_id)
+    if entry:
+        return {
+            'entry': entry.to_dict()
+        }
     raise HTTPNotFound
 
 
@@ -34,9 +36,4 @@ def create_view(request):
 @view_config(route_name='edit', renderer='learning_journal:templates/edit.jinja2')
 def update_view(request):
     """Pass response to send to edit.html page."""
-    target_id = int(request.matchdict['id'])
-    for entry in ENTRIES:
-        if entry['id'] == target_id:
-            return {'entry': entry,
-                    'title': entry['title']
-                    }
+    return {}

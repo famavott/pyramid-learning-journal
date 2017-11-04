@@ -10,6 +10,23 @@ def dummy_request():
     return testing.DummyRequest()
 
 
+@pytest.fixture
+def testapp():
+    """Test app fixture."""
+    from webtest import TestApp
+    from pyramid.config import Configurator
+
+    def main():
+        config = Configurator()
+        config.include('pyramid_jinja2')
+        config.include('.routes')
+        config.scan()
+        return config.make_wsgi_app()
+
+    app = main()
+    return TestApp(app)
+
+
 def test_list_view_returns_dict(dummy_request):
     """Home page returns a response object."""
     from learning_journal.views.default import list_view
@@ -29,13 +46,6 @@ def test_create_view_returns_dict(dummy_request):
     """New post page returns a response object."""
     from learning_journal.views.default import create_view
     response = create_view(dummy_request)
-    assert isinstance(response, dict)
-
-
-def test_update_view_returns_dict(dummy_request):
-    """Update post page returns a response object."""
-    from learning_journal.views.default import update_view
-    response = update_view(dummy_request)
     assert isinstance(response, dict)
 
 

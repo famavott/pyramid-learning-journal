@@ -33,4 +33,9 @@ def create_view(request):
 @view_config(route_name='edit', renderer='learning_journal:templates/edit.jinja2')
 def update_view(request):
     """Pass response to send to edit.html page."""
-    return {}
+    target_id = int(request.matchdict['id'])
+    for entry in ENTRIES:
+        if entry['id'] == target_id:
+            return {'entry': entry,
+                    'title': entry['title']
+                    }

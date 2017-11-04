@@ -65,7 +65,10 @@ def test_detail_view_response_has_title(testapp):
     assert 'title' in response
 
 
-def test_http_not_found(testapp):
+def test_http_not_found(dummy_request):
     """Test if HTTPNotFound with bad route."""
-    with pytest.raises(Exception):
-        testapp.get("/journal/900")
+    from learning_journal.views.default import detail_view
+    with pytest.raises(HTTPNotFound):
+        request = dummy_request
+        request.matchdict['id'] = 90000
+        detail_view(request)

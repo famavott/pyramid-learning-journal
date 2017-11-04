@@ -36,3 +36,10 @@ https://frightful-mausoleum-95099.herokuapp.com/
 
 ```
 $ py.test pyramid_learning_journal
+
+```
+
+## Step 2 Additions
+
+- Added jinja2 templating
+- Changed view config to return a list of entries for the home route, and specific entry data for the detail

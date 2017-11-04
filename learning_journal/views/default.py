@@ -1,44 +1,41 @@
 """Module with view functions that serve each uri."""
-
 from pyramid.view import view_config
-import os
-import io
+from pyramid.httpexceptions import HTTPNotFound
+from learning_journal.data.entries import ENTRIES
 
 
-HERE = os.path.dirname(__file__)
-
-
-@view_config(route_name='home', renderer='string')
-def home_view(request):
-    return "Home!"
-
-@view_config(route_name='home', renderer='string')
+@view_config(route_name='home', renderer='learning_journal:templates/index.jinja2')
 def list_view(request):
-    return
-
-def list_view(request):
-    """Serve all journal entries on home page."""
-    path = os.path.join(HERE, '../templates/index.html')
-    with io.open(path) as file:
-        return Response(file.read())
+    """Pass response to send to index.html page with all entries."""
+    return {
+        'entries': ENTRIES
+    }
 
 
+@view_config(route_name='detail', renderer='learning_journal:templates/detail.jinja2')
 def detail_view(request):
-    """Serve detail HTML page for a single entry."""
-    path = os.path.join(HERE, '../templates/detail.html')
-    with io.open(path) as file:
-        return Response(file.read())
+    """Pass response to send to detail.html page for individual entries."""
+    target_id = int(request.matchdict['id'])
+    for entry in ENTRIES:
+        if entry['id'] == target_id:
+            return {
+                'entry': entry
+            }
+    raise HTTPNotFound
 
 
+@view_config(route_name='create', renderer='learning_journal:templates/new.jinja2')
 def create_view(request):
-    """Serve create entry HTML page."""
-    path = os.path.join(HERE, '../templates/new.html')
-    with io.open(path) as file:
-        return Response(file.read())
+    """Pass response to send to new.html page."""
+    return {}
 
 
+@view_config(route_name='edit', renderer='learning_journal:templates/edit.jinja2')
 def update_view(request):
-    """Update existing journal entry."""
-    path = os.path.join(HERE, '../templates/edit.html')
-    with io.open(path) as file:
-        return Response(file.read())
+    """Pass response to send to edit.html page."""
+    target_id = int(request.matchdict['id'])
+    for entry in ENTRIES:
+        if entry['id'] == target_id:
+            return {'entry': entry,
+                    'title': entry['title']
+                    }

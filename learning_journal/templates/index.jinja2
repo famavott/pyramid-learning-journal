@@ -1,0 +1,15 @@
+    {% extends "layout.jinja2" %}
+
+{% block content %}
+<div class = "row">
+    <div class="col-md-10">
+        {% for entry in entries %}
+        <div class="row page-row">
+            <h3><a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a></h3>
+            <p class="author-name">{{ entry.created }}</p>
+            <p class="post-body">{{ entry.text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,3 +1,4 @@
+"""Initialize db for learning_journal."""
 import os
 import sys
 import transaction
@@ -53,7 +54,7 @@ def main(argv=sys.argv):
             journal_entries.append(
                 Journal(
                     title=entry['title'],
-                    body=entry['text'],
+                    text=entry['text'],
                     created=entry['created']
                 )
             )

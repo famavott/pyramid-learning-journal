@@ -15,7 +15,7 @@ class Journal(Base):
     __tablename__ = 'learning_journal'
     id = Column(Integer, primary_key=True)
     title = Column(Unicode)
-    body = Column(Unicode)
+    text = Column(Unicode)
     created = Column(Unicode)
 
     def to_dict(self):
@@ -23,6 +23,6 @@ class Journal(Base):
         return {
             'id': self.id,
             'title': self.title,
-            'body': self.body,
+            'text': self.text,
             'created': self.created
         }

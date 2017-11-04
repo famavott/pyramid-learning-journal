@@ -1,6 +1,9 @@
 import os
 import sys
 import transaction
+import transaction
+
+from datetime import datetime
 
 from pyramid.paster import (
     get_appsettings,
@@ -15,7 +18,8 @@ from ..models import (
     get_session_factory,
     get_tm_session,
     )
-from ..models import MyModel
+from ..models import Journal
+from learning_journal.data.entries import ENTRIES
 
 
 def usage(argv):
@@ -26,14 +30,17 @@ def usage(argv):
 
 
 def main(argv=sys.argv):
+    """Create db and add data from entries."""
     if len(argv) < 2:
         usage(argv)
     config_uri = argv[1]
     options = parse_vars(argv[2:])
     setup_logging(config_uri)
     settings = get_appsettings(config_uri, options=options)
+    settings['sqlalchemy.url'] = os.environ.get('DATABASE_URL', '')
 
     engine = get_engine(settings)
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
     session_factory = get_session_factory(engine)
@@ -41,5 +48,13 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        model = MyModel(name='one', value=1)
-        dbsession.add(model)
+        journal_entries = []
+        for entry in ENTRIES:
+            journal_entries.append(
+                Journal(
+                    title=entry['title'],
+                    body=entry['text'],
+                    created=entry['created']
+                )
+            )
+        dbsession.add_all(journal_entries)

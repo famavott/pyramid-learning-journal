@@ -2,6 +2,7 @@
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.data.entries import ENTRIES
+from ..models import MyModel
 
 
 @view_config(route_name='home', renderer='learning_journal:templates/index.jinja2')

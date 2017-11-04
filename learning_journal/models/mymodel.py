@@ -1,18 +1,19 @@
+"""Model for learning journal application."""
+
 from sqlalchemy import (
     Column,
-    Index,
     Integer,
-    Text,
+    Unicode
 )
 
 from .meta import Base
 
 
-class MyModel(Base):
-    __tablename__ = 'models'
+class Journal(Base):
+    """Data model for each journal post."""
+
+    __tablename__ = 'learning_journal'
     id = Column(Integer, primary_key=True)
-    name = Column(Text)
-    value = Column(Integer)
-
-
-Index('my_index', MyModel.name, unique=True, mysql_length=255)
+    title = Column(Unicode)
+    body = Column(Unicode)
+    created = Column(Unicode)

@@ -1,18 +1,28 @@
+"""Model for learning journal application."""
+
 from sqlalchemy import (
     Column,
-    Index,
     Integer,
-    Text,
+    Unicode
 )
 
 from .meta import Base
 
 
-class MyModel(Base):
-    __tablename__ = 'models'
+class Journal(Base):
+    """Data model for each journal post."""
+
+    __tablename__ = 'learning_journal'
     id = Column(Integer, primary_key=True)
-    name = Column(Text)
-    value = Column(Integer)
+    title = Column(Unicode)
+    text = Column(Unicode)
+    created = Column(Unicode)
 
-
-Index('my_index', MyModel.name, unique=True, mysql_length=255)
+    def to_dict(self):
+        """Take all model attrs and render to dict."""
+        return {
+            'id': self.id,
+            'title': self.title,
+            'text': self.text,
+            'created': self.created
+        }

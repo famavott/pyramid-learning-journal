@@ -43,3 +43,9 @@ $ py.test pyramid_learning_journal
 
 - Added jinja2 templating
 - Changed view config to return a list of entries for the home route, and specific entry data for the detail
+
+
+## Step 3 Additions
+- Added database interaction with sqlalchemy
+- Changed views to query data from the database and pass as response
+- Made changes to 404 page

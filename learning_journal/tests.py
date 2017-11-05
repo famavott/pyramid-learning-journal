@@ -1,10 +1,9 @@
 """Test file for all pyramid learning journal files."""
-from __future__ import unicode_literals
+import pytest
+from pyramid import testing
 from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.models.mymodel import Journal
 from learning_journal.models.meta import Base
-from pyramid import testing
-import pytest
 
 
 @pytest.fixture(scope='session')

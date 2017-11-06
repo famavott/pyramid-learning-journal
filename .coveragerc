@@ -2,7 +2,6 @@
 source = expense_tracker
 omit =
     expense_tracker/test*
-    expense_tracker/models/*
     expense_tracker/scripts/*
     expense_tracker/data/*
     expense_tracker/views/notfound.py

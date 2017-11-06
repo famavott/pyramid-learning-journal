@@ -160,3 +160,10 @@ def test_create_view_on_post_redirects_home(dummy_request):
     dummy_request.POST = new_entry
     response = create_view(dummy_request)
     assert isinstance(response, HTTPFound)
+
+
+def notfound_returns_empty_dict(dummy_request):
+    """Test if notfound view returns empty dictionary."""
+    from learning_journal.views.notfound import notfound_view_config
+    response = notfound_view_config(dummy_request)
+    assert isinstance(response, dict)

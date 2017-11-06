@@ -31,7 +31,17 @@ def detail_view(request):
 @view_config(route_name='create', renderer='learning_journal:templates/new.jinja2')
 def create_view(request):
     """Pass response to send to new page."""
-    return {}
+    if request.method == 'GET':
+        return{
+            'textarea': 'New Entry'
+        }
+    if request.method == 'POST':
+        new_entry = Journal(
+            title=request.POST['title'],
+            text=request.POST['text']
+        )
+        request.dbsession.add(new_entry)
+        return HTTPFound(request.route_url('home'))
 
 
 @view_config(route_name='edit', renderer='learning_journal:templates/edit.jinja2')
@@ -45,7 +55,7 @@ def update_view(request):
         }
     if request.method == 'POST' and request.POST:
         entry.title = request.POST['title']
-        entry.text = request.POST['text']
+        entry.text = request.POST['body']
         request.dbsession.add(entry)
         request.dbsession.flush()
-        return HTTPFound(request.route_url('home', id=entry.id))
+        return HTTPFound(request.route_url('detail', id=entry.id))

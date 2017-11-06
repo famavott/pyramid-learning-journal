@@ -50,9 +50,8 @@ $ py.test pyramid_learning_journal
 - Changed views to query data from the database and pass as response
 - Made changes to 404 page
 
-## Step 4 Tests
+## Step 3 Tests
 
----------- coverage: platform darwin, python 3.6.2-final-0 -----------
 ---------- coverage: platform darwin, python 3.6.2-final-0 -----------
 Name                                       Stmts   Miss  Cover   Missing
 ------------------------------------------------------------------------
@@ -62,12 +61,13 @@ learning_journal/data/entries.py               2      0   100%
 learning_journal/models/__init__.py           24      3    88%   46-49
 learning_journal/models/meta.py                5      0   100%
 learning_journal/models/mymodel.py            10      0   100%
-learning_journal/routes.py                     7      0   100%
+learning_journal/routes.py                     6      0   100%
 learning_journal/scripts/__init__.py           0      0   100%
 learning_journal/scripts/initializedb.py      33     20    39%   27-30, 35-61
-learning_journal/tests.py                     87      0   100%
+learning_journal/tests.py                     68      0   100%
 learning_journal/views/__init__.py             0      0   100%
-learning_journal/views/default.py             43     16    63%   28-29, 55-64, 70-75
+learning_journal/views/default.py             17      0   100%
 learning_journal/views/notfound.py             4      2    50%   6-7
 ------------------------------------------------------------------------
-TOTAL                                        225     48    79%
+TOTAL                                        179     32    82%
+

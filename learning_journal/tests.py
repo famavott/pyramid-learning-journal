@@ -1,7 +1,7 @@
 """Test file for all pyramid learning journal files."""
 import pytest
 from pyramid import testing
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.models.mymodel import Journal
 from learning_journal.models.meta import Base
 
@@ -55,6 +55,13 @@ def test_create_view_returns_dict(dummy_request):
     """New post page returns a response object."""
     from learning_journal.views.default import create_view
     response = create_view(dummy_request)
+    assert isinstance(response, dict)
+
+
+def test_update_view_returns_dict(dummy_request):
+    """New post page returns a response object."""
+    from learning_journal.views.default import update_view
+    response = update_view(dummy_request)
     assert isinstance(response, dict)
 
 
@@ -117,46 +124,3 @@ def test_detail_view_non_existent_post(dummy_request):
     dummy_request.matchdict['id'] = 9009
     with pytest.raises(HTTPNotFound):
         detail_view(dummy_request)
-
-
-def test_create_view_get_has_textarea_with_text(dummy_request):
-    """Test create view goes to correct html page with placeholder text."""
-    from learning_journal.views.default import create_view
-    response = create_view(dummy_request)
-    assert response == {'textarea': 'New Entry'}
-
-
-def test_list_view_contains_new_entry(dummy_request):
-    """Test if new entry data is in db."""
-    from learning_journal.views.default import list_view
-    new_journal_post = Journal(
-        id=1010,
-        title='Things',
-        created='2017-11-10',
-        text='Some great text.'
-    )
-    dummy_request.dbsession.add(new_journal_post)
-    dummy_request.dbsession.commit()
-    response = list_view(dummy_request)
-    assert new_journal_post.to_dict() in response['entries']
-
-
-def test_update_view_http_not_found(dummy_request):
-    """Test if update raises HTTPNotFound on non-existent id."""
-    from learning_journal.views.default import update_view
-    dummy_request.matchdict['id'] = 250
-    with pytest.raises(HTTPNotFound):
-        update_view(dummy_request)
-
-
-def test_create_view_on_post_redirects_home(dummy_request):
-    """Test create view goes to home view after submit."""
-    from learning_journal.views.default import create_view
-    new_entry = {
-        'title': 'New Stuff',
-        'text': 'A short body.'
-    }
-    dummy_request.method = "POST"
-    dummy_request.POST = new_entry
-    response = create_view(dummy_request)
-    assert isinstance(response, HTTPFound)

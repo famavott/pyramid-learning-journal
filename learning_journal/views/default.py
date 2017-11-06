@@ -1,6 +1,6 @@
 """Module with view functions that serve each uri."""
 from pyramid.view import view_config
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.models.mymodel import Journal
 
 
@@ -16,60 +16,23 @@ def list_view(request):
 
 @view_config(route_name='detail', renderer='learning_journal:templates/detail.jinja2')
 def detail_view(request):
-    """Pass response to send to detail page for individual entries."""
+    """Pass response to send to detail.html page for individual entries."""
     target_id = int(request.matchdict['id'])
     entry = request.dbsession.query(Journal).get(target_id)
-    if not entry:
-        raise HTTPNotFound
-    if request.method == 'GET':
+    if entry:
         return {
             'entry': entry.to_dict()
         }
-    if request.method == "POST":
-        return HTTPFound(request.route_url('edit', id=entry.id))
+    raise HTTPNotFound
 
 
 @view_config(route_name='create', renderer='learning_journal:templates/new.jinja2')
 def create_view(request):
-    """Pass response to send to new page."""
-    if request.method == 'GET':
-        return{
-            'textarea': 'New Entry'
-        }
-    if request.method == 'POST':
-        new_entry = Journal(
-            title=request.POST['title'],
-            text=request.POST['text']
-        )
-        request.dbsession.add(new_entry)
-        return HTTPFound(request.route_url('home'))
+    """Pass response to send to new.html page."""
+    return {}
 
 
 @view_config(route_name='edit', renderer='learning_journal:templates/edit.jinja2')
 def update_view(request):
-    """Pass response to send to edit page."""
-    target_id = int(request.matchdict['id'])
-    entry = request.dbsession.query(Journal).get(target_id)
-    if not entry:
-        raise HTTPNotFound
-    if request.method == 'GET':
-        return {
-            'entry': entry.to_dict()
-        }
-    if request.method == 'POST' and request.POST:
-        entry.title = request.POST['title']
-        entry.text = request.POST['body']
-        request.dbsession.add(entry)
-        request.dbsession.flush()
-        return HTTPFound(request.route_url('detail', id=entry.id))
-
-
-@view_config(route_name='delete')
-def delete_view(request):
-    """Delete a specific entry."""
-    target_id = int(request.matchdict['id'])
-    entry = request.dbsession.query(Journal).get(target_id)
-    if entry:
-        request.dbsession.delete(entry)
-        return HTTPFound(request.route_url('home'))
-    raise HTTPNotFound
+    """Pass response to send to edit.html page."""
+    return {}

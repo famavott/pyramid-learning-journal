@@ -19,13 +19,14 @@ def detail_view(request):
     """Pass response to send to detail page for individual entries."""
     target_id = int(request.matchdict['id'])
     entry = request.dbsession.query(Journal).get(target_id)
+    if not entry:
+        raise HTTPNotFound
     if request.method == 'GET':
         return {
             'entry': entry.to_dict()
         }
     if request.method == "POST":
         return HTTPFound(request.route_url('edit', id=entry.id))
-    raise HTTPNotFound
 
 
 @view_config(route_name='create', renderer='learning_journal:templates/new.jinja2')
@@ -49,6 +50,8 @@ def update_view(request):
     """Pass response to send to edit page."""
     target_id = int(request.matchdict['id'])
     entry = request.dbsession.query(Journal).get(target_id)
+    if not entry:
+        raise HTTPNotFound
     if request.method == 'GET':
         return {
             'entry': entry.to_dict()
@@ -59,3 +62,14 @@ def update_view(request):
         request.dbsession.add(entry)
         request.dbsession.flush()
         return HTTPFound(request.route_url('detail', id=entry.id))
+
+
+@view_config(route_name='delete')
+def delete_view(request):
+    """Delete a specific entry."""
+    target_id = int(request.matchdict['id'])
+    entry = request.dbsession.query(Journal).get(target_id)
+    if entry:
+        request.dbsession.delete(entry)
+        return HTTPFound(request.route_url('home'))
+    raise HTTPNotFound

@@ -59,6 +59,7 @@ def update_view(request):
     if request.method == 'POST' and request.POST:
         entry.title = request.POST['title']
         entry.text = request.POST['body']
+        entry.created = request.POST['created']
         request.dbsession.add(entry)
         request.dbsession.flush()
         return HTTPFound(request.route_url('detail', id=entry.id))

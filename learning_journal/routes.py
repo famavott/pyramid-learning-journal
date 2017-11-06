@@ -7,4 +7,4 @@ def includeme(config):
     config.add_route('home', '/')
     config.add_route('detail', '/journal/{id:\d+}')
     config.add_route('create', '/journal/new-entry')
-    config.add_route('edit', '/{id:\d+}/edit-entry')
+    config.add_route('edit', '/journal/edit-entry/{id:\d+}')

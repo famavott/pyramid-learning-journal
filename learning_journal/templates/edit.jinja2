@@ -1,17 +1,15 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
-<div class = "row" id="detail-entry">
-    <div class="form-group">
-        <label class="input-header">Post Title</label>
-        <input type="text" id="input-title" value="{{ entry.title }}">
-        <div class="form">
-            <label class="input-header">Entry</label>
-            <textarea id="input-text" value="{{ entry.text }}"></textarea>
+<form method="POST">
+    <div class="row">
+        <div class="form-group">
+            <input type="text" id="input-title" name="title" value="{{ entry.title }}">
+            <textarea name="body" type="text">{{ entry.text }}</textarea>
+        <div class="form-group">
+            <input type="submit" class="btn btn-default"/>
+        </div>`
         </div>
     </div>
-    <div class="form-group">
-        <input type="button" class="btn btn-default" value="Update">
-    </div>
-</div>
+</form>
 {% endblock %}

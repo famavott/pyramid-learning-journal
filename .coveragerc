@@ -1,10 +1,8 @@
 [run]
-source = expense_tracker
+source = learning_journal
 omit =
-    expense_tracker/test*
-    expense_tracker/scripts/*
-    expense_tracker/data/*
-    expense_tracker/views/notfound.py
+    learning_journal/scripts/*
+    learning_journal/data/*
 
 [report]
 show_missing = True

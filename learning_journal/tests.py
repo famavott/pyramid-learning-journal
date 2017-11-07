@@ -10,7 +10,7 @@ from learning_journal.models.meta import Base
 def configuration(request):
     """Set up a Configurator instance."""
     config = testing.setUp(settings={
-        'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
+        'sqlalchemy.url': 'postgres://localhost:5432/test_learning_journal'
     })
     config.include("learning_journal.models")
     config.include("learning_journal.routes")
@@ -147,6 +147,20 @@ def test_update_view_http_not_found(dummy_request):
     dummy_request.matchdict['id'] = 250
     with pytest.raises(HTTPNotFound):
         update_view(dummy_request)
+
+
+def test_update_view_get_returns_dict(dummy_request):
+    """Test if update view returns a dictionary on get request."""
+    from learning_journal.views.default import update_view
+    new_entry = Journal(
+        title='Things',
+        text='Some great text.'
+    )
+    dummy_request.dbsession.add(new_entry)
+    dummy_request.dbsession.commit()
+    dummy_request.matchdict['id'] = 1
+    response = update_view(dummy_request)
+    assert isinstance(response, dict)
 
 
 def test_create_view_on_post_redirects_home(dummy_request):

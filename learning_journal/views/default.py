@@ -1,5 +1,6 @@
 """Module with view functions that serve each uri."""
 from pyramid.view import view_config
+from datetime import datetime
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from learning_journal.models.mymodel import Journal
 
@@ -39,7 +40,8 @@ def create_view(request):
     if request.method == 'POST':
         new_entry = Journal(
             title=request.POST['title'],
-            text=request.POST['text']
+            text=request.POST['text'],
+            created=datetime.now()
         )
         request.dbsession.add(new_entry)
         return HTTPFound(request.route_url('home'))
@@ -59,7 +61,7 @@ def update_view(request):
     if request.method == 'POST' and request.POST:
         entry.title = request.POST['title']
         entry.text = request.POST['body']
-        entry.created = request.POST['created']
+        entry.created = datetime.now()
         request.dbsession.add(entry)
         request.dbsession.flush()
         return HTTPFound(request.route_url('detail', id=entry.id))

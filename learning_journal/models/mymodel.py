@@ -1,9 +1,9 @@
 """Model for learning journal application."""
-
 from sqlalchemy import (
     Column,
     Integer,
-    Unicode
+    Unicode,
+    DateTime
 )
 
 from .meta import Base
@@ -16,7 +16,7 @@ class Journal(Base):
     id = Column(Integer, primary_key=True)
     title = Column(Unicode)
     text = Column(Unicode)
-    created = Column(Unicode)
+    created = Column(DateTime)
 
     def to_dict(self):
         """Take all model attrs and render to dict."""
@@ -24,5 +24,5 @@ class Journal(Base):
             'id': self.id,
             'title': self.title,
             'text': self.text,
-            'created': self.created
+            'created': self.created.strftime('%Y-%m-%d')
         }

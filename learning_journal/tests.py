@@ -170,7 +170,7 @@ def test_create_view_on_post_redirects_home(dummy_request):
         'title': 'New Stuff',
         'text': 'A short body.'
     }
-    dummy_request.method = "POST"
+    dummy_request.method = 'POST'
     dummy_request.POST = new_entry
     response = create_view(dummy_request)
     assert isinstance(response, HTTPFound)
@@ -181,3 +181,18 @@ def test_notfound_returns_empty_dict(dummy_request):
     from learning_journal.views.notfound import notfound_view
     response = notfound_view(dummy_request)
     assert isinstance(response, dict)
+
+
+def test_login_returns_empty_dict(dummy_request):
+    """Test get request to login page returns empty dict."""
+    from learning_journal.views.default import login
+    dummy_request.method = 'GET'
+    response = login(dummy_request)
+    assert isinstance(response, dict)
+
+
+def test_logout_view_redirects_with_httpfound(dummy_request):
+    """Test if logout view response is HTTPFound."""
+    from learning_journal.views.default import logout
+    response = logout(dummy_request)
+    assert isinstance(response, HTTPFound)

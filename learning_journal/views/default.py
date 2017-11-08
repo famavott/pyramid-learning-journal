@@ -3,6 +3,20 @@ from pyramid.view import view_config
 from datetime import datetime
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from learning_journal.models.mymodel import Journal
+from pyramid.security import remember, forget
+from this_demoapp.security import check_credentials
+
+
+@view_config(route_name='login', renderer='learning_journal:templates/login.jinja2')
+def login(request):
+    """Login view response for authentication."""
+    if request.method == 'POST':
+        username = request.params.get('username', '')
+        password = request.params.get('password', '')
+        if check_credentials(username, password):
+            headers = remember(request, username)
+            return HTTPFound(location=request.route_url('home'), headers=headers)
+            return {}
 
 
 @view_config(route_name='home', renderer='learning_journal:templates/index.jinja2')

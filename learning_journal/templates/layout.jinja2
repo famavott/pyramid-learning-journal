@@ -18,9 +18,18 @@
         <li class="navs">
             <a href="{{ request.route_url('home') }}">Home</a>
         </li>
+        {% if request.authenticated_userid %}
         <li>
             <a href="{{ request.route_url('create') }}">New</a>
         </li>
+        <li>
+            <a href="{{ request.route_url('logout') }}">Logout</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{{ request.route_url('login') }}">Login</a>
+        </li>
+        {% endif %}
     </ul>
     <main class="container">
         {% block content %}{% endblock %}

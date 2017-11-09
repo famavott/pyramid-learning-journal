@@ -93,15 +93,15 @@ def test_detail_view_returns_specific_entry_data(dummy_request):
     from learning_journal.views.default import detail_view
     new_journal_post = Journal(
         id=68,
-        title='Hope this returns',
+        title='Just a title',
         created='2017-11-10',
-        text='Lots of text here.'
+        text='Some fake text'
     )
     dummy_request.dbsession.add(new_journal_post)
     dummy_request.dbsession.commit()
     dummy_request.matchdict['id'] = 68
     response = detail_view(dummy_request)
-    assert response['entry']['title'] == 'Hope this returns'
+    assert response['entry']['title'] == 'Just a title'
 
 
 def test_detail_view_non_existent_post(dummy_request):

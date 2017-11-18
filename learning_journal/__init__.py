@@ -1,5 +1,6 @@
 """Init function to include routes and jinja2 files to make app."""
 import os
+
 from pyramid.config import Configurator
 
 

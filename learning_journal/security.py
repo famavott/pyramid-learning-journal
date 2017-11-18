@@ -9,6 +9,8 @@ from pyramid.authorization import ACLAuthorizationPolicy
 
 from pyramid.security import Allow, Authenticated, Everyone
 
+from pyramid.session import SignedCookieSessionFactory
+
 
 class MyRoot(object):
     """MyRoot class to allow for access control list to be available to views."""
@@ -49,5 +51,7 @@ def includeme(config):
     config.set_authorization_policy(authz_policy)
     config.set_default_permission('view')
     config.set_root_factory(MyRoot)
-
-
+    session_secret = os.environ.get('SESSION_SECRET', 'placeholder')
+    session_factory = SignedCookieSessionFactory(session_secret)
+    config.set_session_factory(session_factory)
+    config.set_default_csrf_options(require_csrf=True)

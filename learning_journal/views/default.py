@@ -1,10 +1,15 @@
 """Module with view functions that serve each uri."""
-from pyramid.view import view_config
 from datetime import datetime
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+
 from learning_journal.models.mymodel import Journal
-from pyramid.security import remember, forget, NO_PERMISSION_REQUIRED
+
 from learning_journal.security import is_authenticated
+
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+
+from pyramid.security import NO_PERMISSION_REQUIRED, forget, remember
+
+from pyramid.view import view_config
 
 
 @view_config(route_name='home', renderer='learning_journal:templates/index.jinja2', permission='view')

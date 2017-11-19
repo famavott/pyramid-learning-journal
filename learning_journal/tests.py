@@ -10,7 +10,7 @@ from learning_journal.models.meta import Base
 def configuration(request):
     """Set up a Configurator instance."""
     config = testing.setUp(settings={
-        'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
+        'sqlalchemy.url': 'postgres://localhost:5432/test_learning_journal'
     })
     config.include("learning_journal.models")
     config.include("learning_journal.routes")
@@ -93,15 +93,15 @@ def test_detail_view_returns_specific_entry_data(dummy_request):
     from learning_journal.views.default import detail_view
     new_journal_post = Journal(
         id=68,
-        title='Hope this returns',
+        title='Just a title',
         created='2017-11-10',
-        text='Lots of text here.'
+        text='Some fake text'
     )
     dummy_request.dbsession.add(new_journal_post)
     dummy_request.dbsession.commit()
     dummy_request.matchdict['id'] = 68
     response = detail_view(dummy_request)
-    assert response['entry']['title'] == 'Hope this returns'
+    assert response['entry']['title'] == 'Just a title'
 
 
 def test_detail_view_non_existent_post(dummy_request):
@@ -149,6 +149,20 @@ def test_update_view_http_not_found(dummy_request):
         update_view(dummy_request)
 
 
+def test_update_view_get_returns_dict(dummy_request):
+    """Test if update view returns a dictionary on get request."""
+    from learning_journal.views.default import update_view
+    new_entry = Journal(
+        title='Things',
+        text='Some great text.'
+    )
+    dummy_request.dbsession.add(new_entry)
+    dummy_request.dbsession.commit()
+    dummy_request.matchdict['id'] = 1
+    response = update_view(dummy_request)
+    assert isinstance(response, dict)
+
+
 def test_create_view_on_post_redirects_home(dummy_request):
     """Test create view goes to home view after submit."""
     from learning_journal.views.default import create_view
@@ -156,7 +170,7 @@ def test_create_view_on_post_redirects_home(dummy_request):
         'title': 'New Stuff',
         'text': 'A short body.'
     }
-    dummy_request.method = "POST"
+    dummy_request.method = 'POST'
     dummy_request.POST = new_entry
     response = create_view(dummy_request)
     assert isinstance(response, HTTPFound)
@@ -167,3 +181,18 @@ def test_notfound_returns_empty_dict(dummy_request):
     from learning_journal.views.notfound import notfound_view
     response = notfound_view(dummy_request)
     assert isinstance(response, dict)
+
+
+def test_login_returns_empty_dict(dummy_request):
+    """Test get request to login page returns empty dict."""
+    from learning_journal.views.default import login
+    dummy_request.method = 'GET'
+    response = login(dummy_request)
+    assert isinstance(response, dict)
+
+
+def test_logout_view_redirects_with_httpfound(dummy_request):
+    """Test if logout view response is HTTPFound."""
+    from learning_journal.views.default import logout
+    response = logout(dummy_request)
+    assert isinstance(response, HTTPFound)

@@ -3,6 +3,7 @@
 {% block content %}
 <div class = "row">
     <form method="POST" id="detail-page">
+        <input type="hidden" name="csrf_token" value="{{ request.session.get_csrf_token() }}"/>
         <div class="col-md-10">
             <div class="row pager-row">
             </div>

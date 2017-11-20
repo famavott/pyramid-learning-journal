@@ -131,6 +131,20 @@ def test_logout_redirects_to_home(testapp):
     assert '<a href="http://localhost/">Matt\'s 401 Learning Journal</a>' in redirected_page
 
 
+def test_successful_login_redirects_to_home(testapp):
+    """Test if successful login returns user to home."""
+    creds = {'username': 'mfavoino', 'password': 'abadpassword'}
+    response = testapp.get('/login', creds)
+    assert response.status == '200 OK'
+
+
+def test_login_with_bad_creds(testapp):
+    """Test login with bad creds returns login page with invalid combination text."""
+    creds = {'username': 'mfavoino', 'password': 'wrongpassword'}
+    response = testapp.get('/login', creds)
+    assert '<label for="username">Username</label>' in response.ubody
+
+
 def test_list_view_returns_dict(dummy_request):
     """Home page returns a response object."""
     from learning_journal.views.default import list_view

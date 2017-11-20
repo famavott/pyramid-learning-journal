@@ -1,9 +1,18 @@
 """Test file for all pyramid learning journal files."""
-import pytest
-from pyramid import testing
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
-from learning_journal.models.mymodel import Journal
+
+from faker import Faker
+
+from learning_journal.models import Journal, get_tm_session
+
 from learning_journal.models.meta import Base
+
+from pyramid import testing
+
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+
+import pytest
+
+import transaction
 
 
 @pytest.fixture(scope='session')
@@ -39,9 +48,101 @@ def db_session(configuration, request):
 
 
 @pytest.fixture(scope='session')
+def testapp(request):
+    """Create session to test functionality of app."""
+    from webtest import TestApp
+    from pyramid.config import Configurator
+
+    def main():
+        config = Configurator()
+        settings = {
+            'sqlalchemy.url': 'postgres://localhost:5432/test_learning_journal'
+        }
+        config = Configurator(settings=settings)
+        config.include('pyramid_jinja2')
+        config.include('.routes')
+        config.include('.models')
+        config.include('.security')
+        config.scan()
+        return config.make_wsgi_app()
+
+    app = main()
+
+    SessionFactory = app.registry['dbsession_factory']
+    engine = SessionFactory().bind
+    Base.metadata.create_all(bind=engine)
+
+    def teardown():
+        Base.metadata.drop_all(bind=engine)
+
+    request.addfinalizer(teardown)
+
+    return TestApp(app)
+
+
+@pytest.fixture(scope='session')
+def fake_db(testapp):
+    """Use faker to add data to database."""
+    SessionFactory = testapp.app.registry['dbsession_factory']
+    with transaction.manager:
+        dbsession = get_tm_session(SessionFactory, transaction.manager)
+        dbsession.add_all(FAKE_JOURNALS)
+
+
+FAKE_JOURNALS = []
+
+FAKE = Faker()
+
+for num in range(10):
+    new_journal = Journal(
+        title='placeholder text',
+        created=FAKE.date_time(),
+        text='Some text. {}'.format(FAKE.sentence())
+    )
+    FAKE_JOURNALS.append(new_journal)
+
+
+@pytest.fixture(scope='session')
 def dummy_request(db_session):
     """Create a fake HTTP Request with a database session."""
     return testing.DummyRequest(dbsession=db_session)
+
+
+def test_edit_no_creds_sends_403(testapp):
+    """Test if edit route sends a 403 without credentials."""
+    assert testapp.get('/journal/edit-entry/3', status=403)
+
+
+def test_create_no_creds_sends_403(testapp):
+    """Test if create route sends a 403 without credentials."""
+    assert testapp.get('/journal/new-entry', status=403)
+
+
+def test_login_route(testapp):
+    """Test if login page returned for login route."""
+    response = testapp.get('/login')
+    assert '<h2>Login</h2>' in response
+
+
+def test_logout_redirects_to_home(testapp):
+    """Test if successful logout returns user to home."""
+    response = testapp.get('/logout')
+    redirected_page = response.follow()
+    assert '<a href="http://localhost/">Matt\'s 401 Learning Journal</a>' in redirected_page
+
+
+def test_successful_login_redirects_to_home(testapp):
+    """Test if successful login returns user to home."""
+    creds = {'username': 'mfavoino', 'password': 'abadpassword'}
+    response = testapp.get('/login', creds)
+    assert response.status == '200 OK'
+
+
+def test_login_with_bad_creds(testapp):
+    """Test login with bad creds returns login page with invalid combination text."""
+    creds = {'username': 'mfavoino', 'password': 'wrongpassword'}
+    response = testapp.get('/login', creds)
+    assert '<label for="username">Username</label>' in response.ubody
 
 
 def test_list_view_returns_dict(dummy_request):
@@ -196,3 +297,15 @@ def test_logout_view_redirects_with_httpfound(dummy_request):
     from learning_journal.views.default import logout
     response = logout(dummy_request)
     assert isinstance(response, HTTPFound)
+
+
+def test_new_entry_is_added_to_db(db_session):
+    """Test if new entry added to db increases size of entries in db."""
+    first_len = len(db_session.query(Journal).all())
+    new_entry = Journal(
+        title="An entry title",
+        text='The body of the post.'
+    )
+    db_session.add(new_entry)
+    db_session.commit()
+    assert len(db_session.query(Journal).all()) == first_len + 1

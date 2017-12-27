@@ -3,8 +3,6 @@
 
 A simple Pyramid app for my 401-Python learning journal.
 
-https://frightful-mausoleum-95099.herokuapp.com/
-
 **Author**:
 
 - Matt Favoino

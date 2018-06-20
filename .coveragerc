@@ -1,0 +1,9 @@
+[run]
+source = learning_journal
+omit =
+    learning_journal/scripts/*
+    learning_journal/data/*
+    learning_journal/tests.py
+
+[report]
+show_missing = True
